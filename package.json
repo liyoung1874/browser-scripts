@@ -1,0 +1,36 @@
+{
+  "name": "browser-scripts",
+  "version": "0.0.4",
+  "description": "A set of browser scripts.",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liyoung1874/browser-scripts.git"
+  },
+  "keywords": [
+    "browser",
+    "scripts",
+    "script"
+  ],
+  "author": "liyoung1874@outlook.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liyoung1874/browser-scripts/issues"
+  },
+  "homepage": "https://github.com/liyoung1874/browser-scripts#readme",
+  "dependencies": {
+    "element-plus": "^2.7.7",
+    "vue": "^3.4.32"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "vite": "^5.3.4",
+    "vite-plugin-monkey": "^4.0.4"
+  },
+  "type": "module"
+}
