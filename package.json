@@ -1,6 +1,6 @@
 {
   "name": "browser-scripts",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "A set of browser scripts.",
   "main": "src/main.js",
   "scripts": {

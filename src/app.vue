@@ -92,7 +92,7 @@ const autoRegister = async () => {
     logger("未找到签到或已签到按钮！");
     reloadTry -= 1;
     saveConfig();
-    handleFllow();
+    window.location.reload();
   } else if (!btn && reloadTry === 0) {
     logger("未找到签到或已签到按钮！");
     ElNotification({
@@ -126,6 +126,8 @@ const autoRegister = async () => {
   }
 
   logger("签到成功！");
+  reloadTry = 3;
+  saveConfig();
   ElNotification({
     title: "超话签到通知",
     message: `超话签到成功！签到时间${new Date().toLocaleString()}`,
@@ -140,25 +142,6 @@ const isSuperIndex = () => {
     window.location.href.includes("https://weibo.com/p/") &&
     window.location.href.includes("super_index")
   );
-};
-
-const handleFllow = async () => {
-  // 判断是否关注成功
-  logger("尝试关注超话！");
-  await sleep();
-  // get follow button
-  const followBtn = document.querySelector('div[node-type="followBtnBox"]');
-  if (!followBtn) {
-    logger("未找到关注按钮！");
-  }
-
-  if (followBtn.innerHTML.includes("已关注")) {
-    logger("已关注！");
-  } else {
-    logger("点击关注超话！");
-    followBtn.querySelector("a").click();
-  }
-  window.location.reload();
 };
 
 const handleError = async () => {
@@ -196,14 +179,14 @@ const handleError = async () => {
   return true;
 };
 
-const startDailyTask = () => {
+const startDailyTask = async () => {
   logger("开启自动签到任务！");
   // clear previous task
   clearTimeout(dailyDelay.value);
   clearInterval(dailyTimer.value);
 
   // excute immediately a time
-  autoRegister();
+  await autoRegister();
 
   // start daily task
   const [hour, minute] = targetTime.value.split(":");

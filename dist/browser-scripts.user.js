@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Weibo auto sign and post.
 // @namespace    https://liyoung1874.github.io/
-// @version      0.0.4
+// @version      0.0.6
 // @author       https://liyoung1874.github.io/
 // @description  Weibo auto register and post. 微博自动签到和发帖。
 // @license      MIT
@@ -18,7 +18,7 @@
 // @grant        GM_getResourceText
 // ==/UserScript==
 
-(e=>{if(typeof GM_addStyle=="function"){GM_addStyle(e);return}const t=document.createElement("style");t.textContent=e,document.head.append(t)})(" .configBtn[data-v-0752f7cc]{position:fixed;left:3rem;bottom:5rem;z-index:99999999!important}.content[data-v-0752f7cc]{display:flex;flex-direction:column;gap:2rem;padding:1rem 0}.flex-row[data-v-0752f7cc]{display:flex;flex-direction:row;gap:1rem;align-items:center} ");
+(e=>{if(typeof GM_addStyle=="function"){GM_addStyle(e);return}const t=document.createElement("style");t.textContent=e,document.head.append(t)})(" .configBtn[data-v-23d56050]{position:fixed;left:3rem;bottom:5rem;z-index:99999999!important}.content[data-v-23d56050]{display:flex;flex-direction:column;gap:2rem;padding:1rem 0}.flex-row[data-v-23d56050]{display:flex;flex-direction:row;gap:1rem;align-items:center} ");
 
 (function (vue, ElementPlus) {
   'use strict';
@@ -150,7 +150,7 @@
           logger("未找到签到或已签到按钮！");
           reloadTry -= 1;
           saveConfig();
-          handleFllow();
+          window.location.reload();
         } else if (!btn && reloadTry === 0) {
           logger("未找到签到或已签到按钮！");
           ElementPlus.ElNotification({
@@ -179,6 +179,8 @@
           return;
         }
         logger("签到成功！");
+        reloadTry = 3;
+        saveConfig();
         ElementPlus.ElNotification({
           title: "超话签到通知",
           message: `超话签到成功！签到时间${(/* @__PURE__ */ new Date()).toLocaleString()}`,
@@ -189,21 +191,6 @@
       };
       const isSuperIndex = () => {
         return window.location.href.includes("https://weibo.com/p/") && window.location.href.includes("super_index");
-      };
-      const handleFllow = async () => {
-        logger("尝试关注超话！");
-        await sleep();
-        const followBtn = document.querySelector('div[node-type="followBtnBox"]');
-        if (!followBtn) {
-          logger("未找到关注按钮！");
-        }
-        if (followBtn.innerHTML.includes("已关注")) {
-          logger("已关注！");
-        } else {
-          logger("点击关注超话！");
-          followBtn.querySelector("a").click();
-        }
-        window.location.reload();
       };
       const handleError = async () => {
         await sleep(3);
@@ -238,11 +225,11 @@
         }
         return true;
       };
-      const startDailyTask = () => {
+      const startDailyTask = async () => {
         logger("开启自动签到任务！");
         clearTimeout(dailyDelay.value);
         clearInterval(dailyTimer.value);
-        autoRegister();
+        await autoRegister();
         const [hour, minute] = targetTime.value.split(":");
         const delay = getDelayUntilNextTargetTime(+hour, +minute);
         logger("距离下一次签到还有：", ms2str(delay));
@@ -356,7 +343,7 @@
       };
     }
   });
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-0752f7cc"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-23d56050"]]);
   const cssLoader = (e) => {
     const t = GM_getResourceText(e);
     return GM_addStyle(t), t;
